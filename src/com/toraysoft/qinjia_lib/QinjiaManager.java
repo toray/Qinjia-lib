@@ -33,9 +33,6 @@ public class QinjiaManager {
 	private Context mContext;
 	private VoiChannelAPI voichannelapi = VoiChannelAPI.getInstance();
 	
-	private String appKey = "c3ae9769-de6b-454c-9a41-9c724250923c";
-	private String[] channels = {"eyJjaGFubmVsSWQiOiIyIiwicm9vbUlkIjo3OTU5NSwic2VydmVySWQiOjcxODUsInR5cGUiOjF9","eyJjaGFubmVsSWQiOiIzIiwicm9vbUlkIjo3OTU5Niwic2VydmVySWQiOjcxODUsInR5cGUiOjF9"};
-
 	private String username = "";
 	private String nickname = "";
 	private String channelID = "";
@@ -64,14 +61,6 @@ public class QinjiaManager {
 
 	public static void setmInstance(QinjiaManager mInstance) {
 		QinjiaManager.mInstance = mInstance;
-	}
-
-	public String getAppKey() {
-		return appKey;
-	}
-
-	public void setAppKey(String appKey) {
-		this.appKey = appKey;
 	}
 
 	public String getUsername() {
@@ -235,11 +224,11 @@ public class QinjiaManager {
 		userList.add(member);
 	}
 
-	public VoiChannelAPIListener getmProxy() {
+	public VoiChannelAPIListener getProxy() {
 		return mProxy;
 	}
 
-	public void setmProxy(VoiChannelAPIListener mProxy) {
+	public void setProxy(VoiChannelAPIListener mProxy) {
 		this.mProxy = mProxy;
 	}
 
@@ -262,10 +251,6 @@ public class QinjiaManager {
 		return sendTraffic;
 	}
 
-	public String[] getChannels() {
-		return channels;
-	}
-	
 	/**
 	 * @param sendTraffic the sendTraffic to set
 	 */
