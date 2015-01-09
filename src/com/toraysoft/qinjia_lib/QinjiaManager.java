@@ -26,11 +26,10 @@ public class QinjiaManager {
 		return mInstance;
 	}
 	
-	public static void init(Context context){
-		mInstance.mContext = context;
+	public static void init(Context context, String appKey){
+		mInstance.getVoichannelapi().init(context, appKey);
 	}
 
-	private Context mContext;
 	private VoiChannelAPI voichannelapi = VoiChannelAPI.getInstance();
 	
 	private String username = "";
@@ -38,7 +37,7 @@ public class QinjiaManager {
 	private String channelID = "";
 	private String mode = "";
 	
-	private static final String TAG = "TestVoiChanel";
+	private static final String TAG = "QinjiaVoiChanel";
 	
 	private boolean bChannelTalkMode;
 	
@@ -55,14 +54,6 @@ public class QinjiaManager {
 	private boolean isMute;
 	private long sendTraffic;
 		
-	public static QinjiaManager getmInstance() {
-		return mInstance;
-	}
-
-	public static void setmInstance(QinjiaManager mInstance) {
-		QinjiaManager.mInstance = mInstance;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -199,7 +190,6 @@ public class QinjiaManager {
 				break;
 			}
 		}
-
 	}
 
 	public void addUser(String userId) {
@@ -297,7 +287,8 @@ public class QinjiaManager {
 
 			userList.clear();
 			
-			mProxy.onExit(success);
+			if(mProxy != null)
+				mProxy.onExit(success);
 		}
 
 		@Override
@@ -309,7 +300,8 @@ public class QinjiaManager {
 			isOnline = true;
 			isInChannel = true;
 			
-			mProxy.onJoinChannel(success);
+			if(mProxy != null)
+				mProxy.onJoinChannel(success);
 			
 		}
 
@@ -318,7 +310,8 @@ public class QinjiaManager {
 			Log.d(TAG, "onGetChannelMember " + userId);
 			addUser(userId);
 
-			mProxy.onGetChannelMember(userId);
+			if(mProxy != null)
+				mProxy.onGetChannelMember(userId);
 		}
 
 		@Override
@@ -332,7 +325,8 @@ public class QinjiaManager {
 			
 			mode = "";
 			
-			mProxy.onExitChannel(success);
+			if(mProxy != null)
+				mProxy.onExitChannel(success);
 		}
 
 		@Override
@@ -340,7 +334,8 @@ public class QinjiaManager {
 			Log.d(TAG, userId + " exit channel");
 			removeUser(userId);
 			
-			mProxy.onRemoveChannelMember(userId);
+			if(mProxy != null)
+				mProxy.onRemoveChannelMember(userId);
 		}
 
 		@Override
@@ -365,7 +360,8 @@ public class QinjiaManager {
 				updateUser(userId, true);
 			}
 			
-			mProxy.onSilencedStateChanged(silenced, userId);
+			if(mProxy != null)
+				mProxy.onSilencedStateChanged(silenced, userId);
 		}
 
 		@Override
@@ -378,13 +374,15 @@ public class QinjiaManager {
 				isMute = false;
 			}
 
-			mProxy.onMuteStateChanged(muted);
+			if(mProxy != null)
+				mProxy.onMuteStateChanged(muted);
 		}
 
 		@Override
 		public void onStartTalking(String userId) {
 			Log.d(TAG, userId + " is talking");
 
+			isSpeak = true;
 			boolean bFind = false;
 			for (final Map<String, Object> member : userList) {
 				String memberIdString = (String) (member.get("UserId"));
@@ -400,7 +398,8 @@ public class QinjiaManager {
 			}
 			
 
-			mProxy.onStartTalking(userId);
+			if(mProxy != null)
+				mProxy.onStartTalking(userId);
 		}
 
 		@Override
@@ -421,7 +420,8 @@ public class QinjiaManager {
 				updateUser(userId, false);
 			}
 			
-			mProxy.onStopTalking(userId);
+			if(mProxy != null)
+				mProxy.onStopTalking(userId);
 		}
 
 		@Override
@@ -436,7 +436,8 @@ public class QinjiaManager {
 			}
 
 			
-			mProxy.notifyChannelMemberTypes(typeMap);
+			if(mProxy != null)
+				mProxy.notifyChannelMemberTypes(typeMap);
 		}
 
 		@Override
@@ -455,7 +456,8 @@ public class QinjiaManager {
 
 			mode = string;
 			
-			mProxy.notifyChannelTalkMode(talkMode);
+			if(mProxy != null)
+				mProxy.notifyChannelTalkMode(talkMode);
 		}
 
 		@Override
@@ -488,7 +490,8 @@ public class QinjiaManager {
 			} else {
 			}
 			
-			mProxy.onError(errorType);
+			if(mProxy != null)
+				mProxy.onError(errorType);
 		}
 
 		@Override
@@ -504,17 +507,20 @@ public class QinjiaManager {
 				}
 			}
 			
-			mProxy.onGetUserNickname(userMap);
+			if(mProxy != null)
+				mProxy.onGetUserNickname(userMap);
 		}
 
 		@Override
 		public void onChannelRemoved() {
-			mProxy.onChannelRemoved();
+			if(mProxy != null)
+				mProxy.onChannelRemoved();
 		}
 
 		@Override
 		public void onGetChannelDetail(ChannelInfo arg0) {					
-			mProxy.onGetChannelDetail(arg0);
+			if(mProxy != null)
+				mProxy.onGetChannelDetail(arg0);
 		}
 	};
 }
